@@ -1,3 +1,5 @@
+<img width="938" alt="image" src="https://github.com/jesvia/React-Basic-Movie-Search/assets/99470888/5e1dc906-6cbb-472b-a403-c69e50e96ab1">
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
