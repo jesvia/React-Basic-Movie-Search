@@ -1,19 +1,58 @@
-import { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
+import MovieCard from "./MovieCard";
+import SearchIcon from "./search.svg";
+import "./App.css";
 
-const App = () => {
-  const [counter, setCounter] = useState(0);
-  useEffect(()=> {
-    alert("you have changed the counter to" +counter);
-  }, [counter]);
-  return (
-    <div className="App">
-      <button onClick={() => setCounter((prevCount)=> prevCount - 1)}>-</button>
-      <h1>{counter}</h1>
-      <button onClick = {() => setCounter((prevCount)=>prevCount+1)}>+</button>
-    </div>
-  );
+// const apiKey = 'bfb6b916'
+const API_URL = `http://omdbapi.com/?&apikey=bfb6b916`;
+
+const App = () =>{
+const [searchTerm, setSearchTerm] = useState("");
+const [movies, setMovies] = useState([]);
+
+const searchMovies = async (title) => {
+   const response = await fetch(`${API_URL}&s=${title}`);
+   const data = await response.json();
+   setMovies(data.Search);
+}
+useEffect(() => {
+    searchMovies('');
+}, []);
+ return (
+   <div className="app">
+   <h1>MovieSearch</h1>
+
+   <div className="search">
+     <input
+       value={searchTerm}
+       onChange={(e) => setSearchTerm(e.target.value)}
+      onKeyDown ={(e) =>{ if(e.key === 'Enter'){
+        searchMovies(searchTerm);}
+      }}
+       placeholder="Search for movies"
+     />
+     <img
+       src={SearchIcon}
+       alt="search"
+       onClick={() => searchMovies(searchTerm)}
+     />
+   </div>
+
+   {movies?.length > 0 ? (
+     <div className="container">
+       {movies.map((movie) => (
+         <MovieCard movie={movie} />
+       ))}
+     </div>
+   ) : (
+     <div className="empty">
+       <h2>No movies found</h2>
+     </div>
+   )}
+ </div>
+ ); 
 }
 
 export default App;
+
